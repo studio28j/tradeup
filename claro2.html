@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #FFFFFF; color: #0D1420; font-family: Archivo, Helvetica, Arial, sans-serif; -webkit-font-smoothing: antialiased; }
+  a { color: inherit; text-decoration: none; }
+  a:hover { color: #0B5FE0; }
+  input, select, textarea, button { font-family: inherit; }
+  ::selection { background: #CFE2FF; color: #0D1420; }
+  @keyframes tuc-fade-up { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+  @keyframes tuc-float-a { 0%,100% { transform: translate3d(0,0,0) scale(1); } 50% { transform: translate3d(3%,-4%,0) scale(1.06); } }
+  @keyframes tuc-float-b { 0%,100% { transform: translate3d(0,0,0) scale(1.04); } 50% { transform: translate3d(-4%,3%,0) scale(1); } }
+  @keyframes tuc-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes tuc-kenburns { 0%,100% { transform: scale(1.03) translate3d(0,0,0); } 50% { transform: scale(1.09) translate3d(-1.5%,-1%,0); } }
+  @keyframes tuc-blink { 0%,100% { opacity: .3; } 50% { opacity: 1; } }
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: .001s !important; animation-iteration-count: 1 !important; } }
+  [data-reveal] { opacity: 0; transform: translateY(26px); transition: opacity .8s cubic-bezier(.2,.7,.2,1), transform .8s cubic-bezier(.2,.7,.2,1); }
+  [data-reveal].tuc-in { opacity: 1; transform: none; }
+  @media (prefers-reduced-motion: reduce) { [data-reveal] { opacity: 1; transform: none; } }
+</style>
+</helmet>
+
+<div style="width:100%; overflow-x:hidden; background:#FFFFFF;">
+
+  <div aria-hidden="true" style="position:fixed; left:0; top:0; z-index:60; height:3px; width:{{ scrollPct }}; background:linear-gradient(90deg,#0B5FE0 0%,#5AA2FF 100%); transition:width .15s linear;"></div>
+
+  <header style="position:sticky; top:0; z-index:50; backdrop-filter:blur(18px); background:rgba(255,255,255,.88); border-bottom:1px solid #E9EFF7;">
+    <div style="max-width:1280px; margin:0 auto; padding:12px clamp(16px,4vw,40px); display:flex; align-items:center; justify-content:space-between; gap:24px;">
+      <a href="#top" style="display:flex; align-items:center;"><img src="assets-light-v2/Logo-TradeUp_B1.png" alt="TradeUp" style="height:44px; width:auto; display:block;" /></a>
+      <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
+        <nav style="display:flex; align-items:center; gap:clamp(16px,2vw,30px); font-size:14.5px; font-weight:500; color:#5A6A80;">
+          <a href="#quienes" style="padding:6px 0;" style-hover="color:#0D1420">Quiénes somos</a>
+          <a href="#servicios" style="padding:6px 0;" style-hover="color:#0D1420">Servicios</a>
+          <a href="#impacto" style="padding:6px 0;" style-hover="color:#0D1420">Impacto</a>
+          <a href="#clientes" style="padding:6px 0;" style-hover="color:#0D1420">Para quién</a>
+          <a href="#faq" style="padding:6px 0;" style-hover="color:#0D1420">FAQ</a>
+          <a href="#contacto" style="display:inline-flex; align-items:center; gap:9px; padding:11px 22px; border-radius:999px; background:#0B5FE0; color:#FFFFFF; font-weight:600; box-shadow:0 10px 22px rgba(11,95,224,.22); transition:transform .3s ease, box-shadow .3s ease;" style-hover="color:#fff; transform:translateY(-2px); box-shadow:0 14px 30px rgba(11,95,224,.32)">Hablemos</a>
+        </nav>
+      </sc-if>
+      <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ toggleMenu }}" style="display:flex; flex-direction:column; gap:5px; padding:11px; background:#FFFFFF; border:1px solid #E4EAF2; border-radius:12px; cursor:pointer;">
+          <span style="display:block; width:18px; height:1.5px; background:#0D1420;"></span>
+          <span style="display:block; width:18px; height:1.5px; background:#0D1420;"></span>
+          <span style="display:block; width:18px; height:1.5px; background:#0D1420;"></span>
+        </button>
+      </sc-if>
+    </div>
+    <sc-if value="{{ menuOpen }}" hint-placeholder-val="{{ false }}">
+      <nav style="display:flex; flex-direction:column; padding:6px clamp(16px,4vw,40px) 20px; border-top:1px solid #E9EFF7; font-size:17px; font-weight:600; background:#FFFFFF;">
+        <a href="#quienes" onClick="{{ closeMenu }}" style="padding:14px 0; border-bottom:1px solid #EEF2F8;">Quiénes somos</a>
+        <a href="#servicios" onClick="{{ closeMenu }}" style="padding:14px 0; border-bottom:1px solid #EEF2F8;">Servicios</a>
+        <a href="#impacto" onClick="{{ closeMenu }}" style="padding:14px 0; border-bottom:1px solid #EEF2F8;">Impacto</a>
+        <a href="#clientes" onClick="{{ closeMenu }}" style="padding:14px 0; border-bottom:1px solid #EEF2F8;">Para quién</a>
+        <a href="#faq" onClick="{{ closeMenu }}" style="padding:14px 0; border-bottom:1px solid #EEF2F8;">FAQ</a>
+        <a href="#contacto" onClick="{{ closeMenu }}" style="margin-top:14px; text-align:center; padding:15px; border-radius:999px; background:#0B5FE0; color:#FFFFFF;" style-hover="color:#fff">Hablemos de tu necesidad</a>
+      </nav>
+    </sc-if>
+  </header>
+
+  <section id="top" style="position:relative; overflow:hidden; background:linear-gradient(180deg,#FFFFFF 0%,#F4F8FD 100%);">
+    <img src="assets-light-v2/tu-light-11-textura-geo.webp" alt="" aria-hidden="true" style="position:absolute; left:0; top:0; width:min(58%,860px); height:100%; object-fit:cover; opacity:.5; mask-image:linear-gradient(105deg,#000 0%,rgba(0,0,0,.35) 52%,transparent 86%); -webkit-mask-image:linear-gradient(105deg,#000 0%,rgba(0,0,0,.35) 52%,transparent 86%); pointer-events:none;" />
+    <div style="position:relative; max-width:1280px; margin:0 auto; padding:clamp(26px,5vh,54px) clamp(16px,4vw,40px) clamp(36px,6vh,72px); display:grid; grid-template-columns:repeat(auto-fit,minmax(330px,1fr)); gap:clamp(24px,3.5vw,52px); align-items:center;">
+      <div>
+        <div style="display:flex; align-items:center; gap:10px; margin-bottom:20px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#0B5FE0; animation:tuc-fade-up .8s cubic-bezier(.2,.7,.2,1) both;">
+          <span style="width:8px; height:8px; border-radius:50%; background:#0B5FE0; animation:tuc-blink 2.4s ease-in-out infinite;"></span>Visibilidad · Trade marketing · Gestión comercial
+        </div>
+        <h1 style="margin:0; max-width:15ch; font-size:clamp(38px,5.2vw,72px); line-height:1.02; letter-spacing:-0.045em; font-weight:800; text-wrap:balance; animation:tuc-fade-up .85s cubic-bezier(.2,.7,.2,1) .05s both;">Soluciones integrales para potenciar los resultados de tu <span style="color:#0B5FE0;">marca y canal</span>.</h1>
+        <p style="margin:22px 0 0; max-width:46ch; font-size:clamp(15.5px,1.2vw,18px); line-height:1.6; color:#55637A; animation:tuc-fade-up .85s cubic-bezier(.2,.7,.2,1) .14s both;">Visibilidad de marca y canal, trade marketing y gestión comercial. Diseñamos, operamos y ejecutamos la presencia física de tu marca donde ocurre el contacto con el consumidor.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:12px; margin-top:30px; animation:tuc-fade-up .85s cubic-bezier(.2,.7,.2,1) .22s both;">
+          <a href="#contacto" style="display:inline-flex; align-items:center; gap:10px; padding:16px 26px; border-radius:999px; background:#0B5FE0; color:#FFFFFF; font-size:15.5px; font-weight:600; box-shadow:0 14px 30px rgba(11,95,224,.26); transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease;" style-hover="color:#fff; transform:translateY(-3px); box-shadow:0 20px 38px rgba(11,95,224,.34)">Cuéntanos qué necesitas<span style="font-size:17px;">→</span></a>
+          <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; padding:16px 24px; border-radius:999px; background:#FFFFFF; border:1px solid #DFE7F2; color:#0D1420; font-size:15.5px; font-weight:600; box-shadow:0 8px 20px rgba(13,26,48,.05); transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:0 14px 28px rgba(13,26,48,.1)"><span style="width:17px; height:17px; flex:none; background:#0B5FE0; mask:url(assets-light-v2/icon-whatsapp.svg) center/contain no-repeat; -webkit-mask:url(assets-light-v2/icon-whatsapp.svg) center/contain no-repeat;"></span>Escribir por WhatsApp</a>
+        </div>
+      </div>
+      <div data-reveal="" style="position:relative; width:calc(100% + clamp(16px,4vw,40px)); margin-right:calc(-1 * clamp(16px,4vw,40px));">
+        <picture style="display:block; border-radius:26px 0 0 26px; overflow:hidden; box-shadow:0 34px 70px rgba(13,26,48,.18);">
+          <source media="(max-width: 899px)" srcSet="assets-light-v2/tu-light-01-hero-mobile.webp" type="image/webp" />
+          <source media="(max-width: 899px)" srcSet="assets-light-v2/tu-light-01-hero-mobile.jpg" type="image/jpeg" />
+          <source srcSet="assets-light-v2/tu-light-01-hero-desktop.webp" type="image/webp" />
+          <img src="assets-light-v2/tu-light-01-hero-desktop.jpg" alt="Pantalla LED de gran formato sobre una avenida de Quito con el skyline andino de fondo." style="display:block; width:100%; height:clamp(330px,44vw,560px); object-fit:cover; object-position:center 50%; animation:tuc-kenburns 26s ease-in-out infinite;" />
+        </picture>
+        <div aria-hidden="true" style="position:absolute; inset:0; border-radius:26px 0 0 26px; background:linear-gradient(90deg,rgba(255,255,255,.92) 0%,rgba(255,255,255,.28) 26%,rgba(255,255,255,0) 52%); pointer-events:none;"></div>
+        <div style="position:absolute; left:clamp(-8px,-1vw,0px); bottom:clamp(-18px,-1.6vw,-12px); display:flex; align-items:center; gap:12px; padding:14px 18px; border-radius:16px; background:#FFFFFF; box-shadow:0 16px 36px rgba(13,26,48,.14);">
+          <span style="width:9px; height:9px; border-radius:50%; background:#0B5FE0;"></span>
+          <span style="font-size:14px; font-weight:600; letter-spacing:-0.01em;">DOOH · Vía pública · Punto de venta</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div style="position:relative; overflow:hidden; background:#FFFFFF; border-top:1px solid #EAF0F8; border-bottom:1px solid #EAF0F8;">
+    <div style="display:flex; width:max-content; animation:tuc-marquee 32s linear infinite;">
+      <div style="display:flex; align-items:center; gap:clamp(24px,4vw,50px); padding:14px clamp(12px,2vw,25px); font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:#68788F; white-space:nowrap;">
+        <span>DOOH</span><span style="color:#0B5FE0">◆</span><span>Mobiliario urbano</span><span style="color:#5AA2FF">◆</span><span>Punto de venta</span><span style="color:#0B5FE0">◆</span><span>Alianzas marca–retailer</span><span style="color:#5AA2FF">◆</span><span>Ejecución en campo</span><span style="color:#0B5FE0">◆</span><span>Soluciones a la medida</span><span style="color:#5AA2FF">◆</span>
+      </div>
+      <div style="display:flex; align-items:center; gap:clamp(24px,4vw,50px); padding:14px clamp(12px,2vw,25px); font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.14em; text-transform:uppercase; color:#68788F; white-space:nowrap;">
+        <span>DOOH</span><span style="color:#0B5FE0">◆</span><span>Mobiliario urbano</span><span style="color:#5AA2FF">◆</span><span>Punto de venta</span><span style="color:#0B5FE0">◆</span><span>Alianzas marca–retailer</span><span style="color:#5AA2FF">◆</span><span>Ejecución en campo</span><span style="color:#0B5FE0">◆</span><span>Soluciones a la medida</span><span style="color:#5AA2FF">◆</span>
+      </div>
+    </div>
+  </div>
+
+  <section style="position:relative; overflow:hidden; background:#F4F8FD;">
+    <img src="assets-light-v2/tu-light-11-textura-geo.webp" alt="" aria-hidden="true" style="position:absolute; right:0; top:0; width:min(46%,680px); height:100%; object-fit:cover; opacity:.45; mask-image:linear-gradient(270deg,#000 0%,transparent 88%); -webkit-mask-image:linear-gradient(270deg,#000 0%,transparent 88%); pointer-events:none;" />
+    <div data-reveal="" style="position:relative; max-width:1280px; margin:0 auto; padding:clamp(34px,5vh,58px) clamp(16px,4vw,40px); display:grid; grid-template-columns:repeat(auto-fit,minmax(210px,1fr)); gap:clamp(14px,1.6vw,22px);">
+      <sc-for list="{{ pillars }}" as="p" hint-placeholder-count="4">
+        <div style="padding:26px 24px 28px; background:#FFFFFF; border:1px solid #E7EEF8; border-radius:16px; box-shadow:0 10px 26px rgba(13,26,48,.05); transition-delay:{{ p.delay }}; transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease;" style-hover="transform:translateY(-6px); box-shadow:0 24px 44px rgba(13,26,48,.12); border-color:#C9DDFA">
+          <span style="display:block; width:28px; height:28px; margin-bottom:18px; background:#0B5FE0; mask:{{ p.icon }}; -webkit-mask:{{ p.icon }};"></span>
+          <div style="font-size:clamp(17px,1.4vw,19.5px); font-weight:700; letter-spacing:-0.025em; line-height:1.2; margin-bottom:8px;">{{ p.t }}</div>
+          <div style="font-size:14px; line-height:1.55; color:#62718A;">{{ p.d }}</div>
+          <div style="margin-top:14px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#8FA2BC;">{{ p.k }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <section id="quienes" style="position:relative; overflow:hidden; background:#FFFFFF;">
+    <img src="assets-light-v2/tu-light-01-hero-mobile.webp" alt="Centro histórico de Quito con el volcán al fondo." loading="lazy" style="position:absolute; right:0; top:0; width:min(44%,20%); height:100%; object-fit:cover; object-position:center 60%; mask-image:linear-gradient(100deg,transparent 0%,rgba(0,0,0,.6) 34%,#000 72%); -webkit-mask-image:linear-gradient(100deg,transparent 20%,rgba(0,0,0,.6) 34%,#000 72%);" />
+    <div aria-hidden="true" style="position:absolute; right:0; top:0; width:min(44%,620px); height:100%; background:linear-gradient(180deg,rgba(255,255,255,.35) 0%,rgba(255,255,255,0) 35%,rgba(255,255,255,.35) 100%); pointer-events:none;"></div>
+    <div style="position:relative; max-width:1280px; margin:0 auto; padding:clamp(52px,8vh,104px) clamp(16px,4vw,40px); display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:clamp(28px,5vw,64px); align-items:start;">
+      <div data-reveal="">
+        <div style="display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#8FA2BC; margin-bottom:18px;"><span style="width:16px; height:16px; flex:none; background:#0B5FE0; mask:url(assets-light-v2/icon-ciudad.svg) center/contain no-repeat; -webkit-mask:url(assets-light-v2/icon-ciudad.svg) center/contain no-repeat;"></span>01 — Quiénes somos</div>
+        <h2 style="margin:0; font-size:clamp(28px,3.3vw,48px); line-height:1.06; letter-spacing:-0.035em; font-weight:700; text-wrap:balance;">No vendemos espacios. Convertimos una necesidad comercial en presencia física y resultados.</h2>
+      </div>
+      <div data-reveal="">
+        <p style="margin:0 0 22px; max-width:46ch; font-size:clamp(15.5px,1.2vw,18px); line-height:1.65; color:#55637A;">Desarrollo, operación y comercialización de soluciones integrales de visibilidad de marca, trade marketing y gestión comercial en puntos de venta y espacios estratégicos. Diseñamos el recorrido completo y lo operamos.</p>
+        <div style="display:flex; flex-wrap:wrap; gap:8px; max-width:46ch;">
+          <sc-for list="{{ chain }}" as="node" hint-placeholder-count="6">
+            <span style="display:inline-flex; align-items:center; gap:8px; padding:9px 15px; border-radius:999px; background:#FFFFFF; border:1px solid #E1E9F5; box-shadow:0 4px 12px rgba(13,26,48,.04); font-size:13.5px; font-weight:500; color:#33425A; transition:transform .3s cubic-bezier(.2,.7,.2,1), border-color .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-3px); border-color:#9FC4F7; box-shadow:0 10px 22px rgba(13,26,48,.08)"><span style="width:12px; height:12px; flex:none; background:#0B5FE0; mask:url(assets-light-v2/icon-ubicacion.svg) center/contain no-repeat; -webkit-mask:url(assets-light-v2/icon-ubicacion.svg) center/contain no-repeat;"></span>{{ node }}</span>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="servicios" style="position:relative; overflow:hidden; background:linear-gradient(180deg,#F4F8FD 0%,#FFFFFF 100%);">
+    <img src="assets-light-v2/tu-light-09-textura-wave.webp" alt="" aria-hidden="true" loading="lazy" style="position:absolute; left:0; top:0; width:100%; height:42%; object-fit:cover; opacity:.35; mask-image:linear-gradient(180deg,#000 0%,transparent 96%); -webkit-mask-image:linear-gradient(180deg,#000 0%,transparent 96%); pointer-events:none;" />
+    <div style="position:relative; max-width:1280px; margin:0 auto; padding:clamp(52px,8vh,104px) clamp(16px,4vw,40px);">
+      <div data-reveal="" style="display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:20px; margin-bottom:clamp(28px,4.5vh,48px);">
+        <div>
+          <div style="display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#8FA2BC; margin-bottom:18px;"><span style="width:16px; height:16px; flex:none; background:#0B5FE0; mask:url(assets-light-v2/icon-soluciones.svg) center/contain no-repeat; -webkit-mask:url(assets-light-v2/icon-soluciones.svg) center/contain no-repeat;"></span>02 — Servicios</div>
+          <h2 style="margin:0; max-width:22ch; font-size:clamp(28px,3.3vw,48px); line-height:1.06; letter-spacing:-0.035em; font-weight:700;">Cinco formas de llevar tu marca al punto de contacto</h2>
+        </div>
+        <p style="margin:0; max-width:30ch; font-size:15.5px; line-height:1.6; color:#62718A;">Estrategia, espacios y ejecución. Puedes tomar un servicio o combinarlos en un solo proyecto.</p>
+      </div>
+      <div data-reveal="" style="position:relative; overflow:hidden; padding:6px;">
+        <div style="display:flex; gap:20px; transform:{{ trackShift }}; transition:transform .65s cubic-bezier(.2,.7,.2,1);">
+          <sc-for list="{{ services }}" as="s" hint-placeholder-count="3">
+            <div onMouseEnter="{{ s.onEnter }}" onMouseLeave="{{ s.onLeave }}" style="flex:{{ cardBasis }}; display:flex; flex-direction:column; background:#FFFFFF; border:1px solid #E7EEF8; border-radius:20px; overflow:hidden; transform:{{ s.lift }}; box-shadow:{{ s.shadow }}; transition:transform .4s cubic-bezier(.2,.7,.2,1), box-shadow .4s ease;">
+              <div style="position:relative; height:clamp(190px,16vw,224px); overflow:hidden; background:#EDF3FB;">
+                <img src="{{ s.img }}" alt="{{ s.imgAlt }}" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; transform:{{ s.zoom }}; transition:transform .8s cubic-bezier(.2,.7,.2,1);" />
+                <div style="position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,40,90,.16) 0%,rgba(255,255,255,0) 46%,rgba(255,255,255,.35) 100%); pointer-events:none;"></div>
+                <span style="position:absolute; top:14px; left:14px; display:inline-flex; align-items:center; gap:8px; padding:7px 11px; border-radius:999px; background:rgba(255,255,255,.95); box-shadow:0 6px 16px rgba(13,26,48,.14); font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.12em; color:#0D1420;"><span style="width:13px; height:13px; background:#0B5FE0; mask:{{ s.iconMask }}; -webkit-mask:{{ s.iconMask }};"></span>{{ s.num }}</span>
+              </div>
+              <div style="padding:22px 22px 24px; display:flex; flex-direction:column; gap:12px; flex:1;">
+                <h3 style="margin:0; font-size:clamp(18px,1.6vw,22px); font-weight:700; letter-spacing:-0.03em; line-height:1.15;">{{ s.title }}</h3>
+                <p style="margin:0; font-size:14.5px; line-height:1.6; color:#62718A;">{{ s.body }}</p>
+                <div style="display:flex; align-items:flex-end; justify-content:space-between; gap:16px; margin-top:auto; padding-top:16px; border-top:1px solid #EEF3FA;">
+                  <div style="display:flex; flex-direction:column; gap:7px;">
+                    <sc-for list="{{ s.items }}" as="it" hint-placeholder-count="4">
+                      <div style="display:flex; align-items:flex-start; gap:9px; font-size:13px; color:#41506A;">
+                        <span style="width:5px; height:5px; margin-top:6px; border-radius:50%; background:#0B5FE0; flex:none;"></span>{{ it }}
+                      </div>
+                    </sc-for>
+                  </div>
+                  <a href="#contacto" aria-label="Hablemos de {{ s.title }}" style="flex:none; display:inline-flex; align-items:center; justify-content:center; width:40px; height:40px; border-radius:50%; border:1px solid #D7E4F6; color:#0B5FE0; font-size:17px; background:#FFFFFF; transition:transform .3s ease, box-shadow .3s ease, background .3s ease;" style-hover="color:#fff; background:#0B5FE0; transform:translateY(-2px); box-shadow:0 12px 24px rgba(11,95,224,.28)">→</a>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:20px; margin-top:clamp(18px,3vh,30px);">
+        <div style="display:flex; gap:8px;">
+          <sc-for list="{{ dots }}" as="d" hint-placeholder-count="3">
+            <button onClick="{{ d.go }}" aria-label="Ir al grupo {{ d.label }}" style="width:{{ d.w }}; height:7px; border:0; border-radius:999px; background:{{ d.bg }}; cursor:pointer; padding:0; transition:width .4s ease, background .4s ease;"></button>
+          </sc-for>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button onClick="{{ prev }}" aria-label="Anterior" style="width:46px; height:46px; border-radius:50%; border:1px solid #DFE7F2; background:#FFFFFF; color:{{ prevColor }}; font-size:18px; cursor:pointer; box-shadow:0 8px 20px rgba(13,26,48,.06); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-2px); box-shadow:0 14px 28px rgba(13,26,48,.12)">←</button>
+          <button onClick="{{ next }}" aria-label="Siguiente" style="width:46px; height:46px; border-radius:50%; border:1px solid #DFE7F2; background:#FFFFFF; color:{{ nextColor }}; font-size:18px; cursor:pointer; box-shadow:0 8px 20px rgba(13,26,48,.06); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-2px); box-shadow:0 14px 28px rgba(13,26,48,.12)">→</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="impacto" style="position:relative; overflow:hidden; background:#FFFFFF;">
+    <img src="assets-light-v2/tu-light-07-ciudad-movimiento.webp" alt="Skyline de Guayaquil junto al río al atardecer." loading="lazy" style="position:absolute; left:0; top:0; width:min(40%,20%); height:100%; object-fit:cover; object-position:center 52%; mask-image:linear-gradient(260deg,transparent 0%,rgba(0,0,0,.65) 30%,#000 70%); -webkit-mask-image:linear-gradient(260deg,transparent 20%,rgba(0,0,0,.65) 30%,#000 70%);" />
+    <div style="position:relative; max-width:1280px; margin:0 auto; padding:clamp(52px,8vh,104px) clamp(16px,4vw,40px);">
+      <div data-reveal="" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:clamp(28px,5vw,60px); align-items:center;">
+        <div style="padding-left:clamp(0px,6vw,90px);">
+          <div style="display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#8FA2BC; margin-bottom:18px;"><span style="width:16px; height:16px; flex:none; background:#0B5FE0; mask:url(assets-light-v2/icon-ubicacion.svg) center/contain no-repeat; -webkit-mask:url(assets-light-v2/icon-ubicacion.svg) center/contain no-repeat;"></span>03 — Impacto real</div>
+          <h2 style="margin:0 0 20px; font-size:clamp(28px,3.3vw,48px); line-height:1.06; letter-spacing:-0.035em; font-weight:700;">La ciudad y el canal también son un medio.</h2>
+          <p style="margin:0 0 28px; max-width:42ch; font-size:16.5px; line-height:1.65; color:#55637A;">Transformamos espacios en oportunidades de negocio, conectando marcas con personas en su vida cotidiana y en el momento de la compra.</p>
+          <a href="#contacto" style="display:inline-flex; align-items:center; gap:10px; padding:15px 24px; border-radius:999px; background:#0B5FE0; color:#FFFFFF; font-size:15px; font-weight:600; box-shadow:0 14px 28px rgba(11,95,224,.24); transition:transform .3s ease, box-shadow .3s ease;" style-hover="color:#fff; transform:translateY(-3px); box-shadow:0 18px 36px rgba(11,95,224,.32)">Hablemos de tu necesidad</a>
+        </div>
+        <div style="display:grid; gap:12px;">
+          <sc-for list="{{ steps }}" as="st" hint-placeholder-count="4">
+            <div style="display:flex; align-items:flex-start; gap:16px; padding:18px 20px; border-radius:14px; background:#FFFFFF; border:1px solid #E7EEF8; box-shadow:0 10px 24px rgba(13,26,48,.05); transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s ease, border-color .35s ease;" style-hover="transform:translateX(6px); box-shadow:0 18px 34px rgba(13,26,48,.1); border-color:#C9DDFA">
+              <span style="flex:none; display:inline-flex; align-items:center; justify-content:center; width:38px; height:38px; border-radius:11px; background:#EEF5FF;"><span style="width:20px; height:20px; background:#0B5FE0; mask:{{ st.icon }}; -webkit-mask:{{ st.icon }};"></span></span>
+              <div>
+                <div style="font-size:16.5px; font-weight:600; letter-spacing:-0.02em; margin-bottom:4px;">{{ st.t }}</div>
+                <div style="font-size:14px; line-height:1.55; color:#62718A;">{{ st.d }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="clientes" style="position:relative; overflow:hidden; background:linear-gradient(180deg,#FFFFFF 0%,#F4F8FD 60%,#FFFFFF 100%);">
+    <img src="assets-light-v2/tu-light-11-textura-geo.webp" alt="" aria-hidden="true" loading="lazy" style="position:absolute; right:0; top:0; width:min(50%,720px); height:100%; object-fit:cover; opacity:.5; mask-image:linear-gradient(250deg,#000 0%,transparent 82%); -webkit-mask-image:linear-gradient(250deg,#000 0%,transparent 82%); pointer-events:none;" />
+    <div style="position:relative; max-width:1280px; margin:0 auto; padding:clamp(52px,8vh,104px) clamp(16px,4vw,40px);">
+      <div data-reveal="" style="margin-bottom:clamp(26px,4vh,42px); max-width:44ch;">
+        <div style="display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#8FA2BC; margin-bottom:18px;"><span style="width:16px; height:16px; flex:none; background:#0B5FE0; mask:url(assets-light-v2/icon-equipos.svg) center/contain no-repeat; -webkit-mask:url(assets-light-v2/icon-equipos.svg) center/contain no-repeat;"></span>04 — Para quién</div>
+        <h2 style="margin:0 0 16px; font-size:clamp(26px,3vw,44px); line-height:1.08; letter-spacing:-0.035em; font-weight:700;">Trabajamos con quien necesita resolver, <span style="color:#0B5FE0;">no solo comprar publicidad</span>.</h2>
+        <p style="margin:0; display:inline-flex; align-items:center; gap:10px; font-size:16px; line-height:1.6; color:#62718A;"><span style="width:26px; height:1px; background:#0B5FE0;"></span>Pasa el cursor por cada perfil para ver qué resolvemos.</p>
+      </div>
+      <div data-reveal="" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr)); gap:14px;">
+        <sc-for list="{{ audiences }}" as="a" hint-placeholder-count="6">
+          <div onMouseEnter="{{ a.onEnter }}" onMouseLeave="{{ a.onLeave }}" style="perspective:1000px; height:clamp(196px,20vw,214px);">
+            <div style="position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .62s cubic-bezier(.2,.7,.2,1); transform:{{ a.flip }};">
+              <div style="position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; overflow:hidden; border-radius:16px; background:#FFFFFF; border:1px solid #E7EEF8; box-shadow:{{ a.shadow }}; display:flex; flex-direction:column;">
+                <div style="position:relative; height:60%; overflow:hidden; background:#EDF3FB;">
+                  <img src="{{ a.img }}" alt="" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover;" />
+                  <div style="position:absolute; inset:0; background:linear-gradient(180deg,rgba(11,40,90,.14) 0%,rgba(255,255,255,0) 60%);"></div>
+                  <span style="position:absolute; top:10px; left:10px; display:inline-flex; align-items:center; justify-content:center; width:26px; height:26px; border-radius:50%; background:rgba(255,255,255,.95); color:#0B5FE0; font-size:13px; box-shadow:0 4px 12px rgba(13,26,48,.14);">↗</span>
+                </div>
+                <div style="flex:1; padding:12px 14px; display:flex; align-items:center; justify-content:space-between; gap:10px;">
+                  <span style="font-size:clamp(14.5px,1.25vw,16.5px); font-weight:700; letter-spacing:-0.025em; line-height:1.15; color:#0B1422;">{{ a.t }}</span>
+                  <span style="flex:none; display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; border-radius:50%; background:#EEF5FF; color:#0B5FE0; font-size:14px;">→</span>
+                </div>
+              </div>
+              <div style="position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden; transform:rotateY(180deg); overflow:hidden; border-radius:16px; background:#0B5FE0; box-shadow:0 20px 40px rgba(11,95,224,.24);">
+                <img src="assets-light-v2/tu-light-11-textura-geo.webp" alt="" loading="lazy" style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; opacity:.18; mix-blend-mode:soft-light;" />
+                <div style="position:relative; height:100%; padding:16px 18px; display:flex; flex-direction:column; justify-content:space-between; color:#FFFFFF;">
+                  <span style="font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase;">{{ a.k }}</span>
+                  <span style="font-size:clamp(14.5px,1.3vw,16.5px); line-height:1.4; font-weight:600; letter-spacing:-0.015em;">{{ a.d }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" style="position:relative; overflow:hidden; background:#FFFFFF; border-top:1px solid #EAF0F8;">
+    <img src="assets-light-v2/tu-light-09-textura-wave.webp" alt="" aria-hidden="true" loading="lazy" style="position:absolute; left:0; bottom:0; width:100%; height:46%; object-fit:cover; opacity:.3; mask-image:linear-gradient(0deg,#000 0%,transparent 94%); -webkit-mask-image:linear-gradient(0deg,#000 0%,transparent 94%); pointer-events:none;" />
+    <div style="position:relative; max-width:1280px; margin:0 auto; padding:clamp(52px,8vh,104px) clamp(16px,4vw,40px); display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:clamp(28px,5vw,72px); align-items:start;">
+      <div data-reveal="">
+        <div style="display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#8FA2BC; margin-bottom:18px;"><span style="width:16px; height:16px; flex:none; background:#0B5FE0; mask:url(assets-light-v2/icon-reportes.svg) center/contain no-repeat; -webkit-mask:url(assets-light-v2/icon-reportes.svg) center/contain no-repeat;"></span>05 — Preguntas frecuentes</div>
+        <h2 style="margin:0 0 18px; font-size:clamp(28px,3.1vw,44px); line-height:1.06; letter-spacing:-0.035em; font-weight:700; text-wrap:balance;">Resolvemos tus dudas antes de empezar.</h2>
+        <p style="margin:0 0 24px; max-width:36ch; font-size:15.5px; line-height:1.6; color:#62718A;">Si tu caso no está aquí, escríbenos: casi siempre entra en soluciones a la medida.</p>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:10px; padding:13px 22px; border-radius:999px; background:#FFFFFF; border:1px solid #DFE7F2; font-size:14.5px; font-weight:600; box-shadow:0 8px 20px rgba(13,26,48,.05); transition:transform .3s ease, box-shadow .3s ease;" style-hover="transform:translateY(-2px); box-shadow:0 14px 28px rgba(13,26,48,.1)"><span style="width:16px; height:16px; flex:none; background:#0B5FE0; mask:url(assets-light-v2/icon-whatsapp.svg) center/contain no-repeat; -webkit-mask:url('assets-light-v2/icon-whatsapp.svg') center/contain no-repeat;"></span>Preguntar por WhatsApp</a>
+      </div>
+      <div data-reveal="" style="display:flex; flex-direction:column;">
+        <sc-for list="{{ faqs }}" as="f" hint-placeholder-count="6">
+          <div style="border-bottom:1px solid #EAF0F8;">
+            <button onClick="{{ f.onToggle }}" style="width:100%; display:flex; align-items:center; gap:18px; padding:20px 0; background:transparent; border:0; cursor:pointer; text-align:left; color:#0D1420; transition:padding-left .25s ease;" style-hover="padding-left:8px">
+              <span style="flex:1; font-size:clamp(15.5px,1.3vw,18px); font-weight:600; letter-spacing:-0.02em; color:{{ f.qColor }}; transition:color .25s ease;">{{ f.q }}</span>
+              <span style="font-size:20px; color:{{ f.iconColor }}; transform:{{ f.iconRotate }}; transition:transform .35s cubic-bezier(.2,.7,.2,1), color .25s ease;">+</span>
+            </button>
+            <sc-if value="{{ f.open }}" hint-placeholder-val="{{ false }}">
+              <p style="margin:0; padding:0 44px 22px 0; font-size:15.5px; line-height:1.65; color:#62718A; max-width:58ch; animation:tuc-fade-up .45s cubic-bezier(.2,.7,.2,1) both;">{{ f.a }}</p>
+            </sc-if>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <section id="contacto" style="position:relative; overflow:hidden; background:linear-gradient(180deg,#F4F8FD 0%,#FFFFFF 100%);">
+    <img src="assets-light-v2/tu-light-11-textura-geo.webp" alt="" aria-hidden="true" loading="lazy" style="position:absolute; left:0; top:0; width:min(48%,700px); height:100%; object-fit:cover; opacity:.45; mask-image:linear-gradient(110deg,#000 0%,transparent 86%); -webkit-mask-image:linear-gradient(110deg,#000 0%,transparent 86%); pointer-events:none;" />
+    <img src="assets-light-v2/tu-light-08-personas-marca.webp" alt="" aria-hidden="true" loading="lazy" style="position:absolute; right:0; bottom:0; width:min(34%,460px); height:78%; object-fit:cover; object-position:center 40%; opacity:.9; mask-image:linear-gradient(230deg,#000 0%,transparent 78%); -webkit-mask-image:linear-gradient(230deg,#000 0%,transparent 78%); pointer-events:none;" />
+    <div style="position:relative; max-width:1280px; margin:0 auto; padding:clamp(52px,8vh,104px) clamp(16px,4vw,40px); display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:clamp(28px,5vw,64px); align-items:start;">
+      <div data-reveal="">
+        <div style="display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono',monospace; font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:#8FA2BC; margin-bottom:18px;"><span style="width:16px; height:16px; flex:none; background:#0B5FE0; mask:url(/assets-light-v2/icon-whatsapp.svg) center/contain no-repeat; -webkit-mask:url(assets-light-v2/icon-whatsapp.svg) center/contain no-repeat;"></span>06 — Contacto</div>
+        <h2 style="margin:0; font-size:clamp(32px,4vw,58px); line-height:1.04; letter-spacing:-0.04em; font-weight:800;">Hablemos de tu necesidad<span style="color:#0B5FE0;">!</span></h2>
+        <p style="margin:18px 0 28px; max-width:36ch; font-size:clamp(15.5px,1.25vw,18px); line-height:1.6; color:#55637A;">Cuéntanos qué necesitas y te respondemos por WhatsApp.</p>
+        <a href="{{ waLink }}" target="_blank" rel="noopener" style="display:inline-flex; align-items:center; gap:11px; padding:16px 26px; border-radius:999px; background:#0B5FE0; color:#FFFFFF; font-size:15.5px; font-weight:600; box-shadow:0 14px 30px rgba(11,95,224,.26); transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease;" style-hover="color:#fff; transform:translateY(-3px); box-shadow:0 20px 38px rgba(11,95,224,.34)">
+          <span style="width:17px; height:17px; flex:none; background:#FFFFFF; mask:url(assets-light-v2/icon-whatsapp.svg) center/contain no-repeat; -webkit-mask:url(assets-light-v2/icon-whatsapp.svg) center/contain no-repeat;"></span>WhatsApp directo
+        </a>
+        <div style="margin-top:34px; padding-top:22px; border-top:1px solid #E4EAF2; font-family:'IBM Plex Mono',monospace; font-size:12px; line-height:2; letter-spacing:.06em; color:#68788F; text-transform:uppercase;">
+          <div>Visibilidad de marca y canal</div>
+          <div>Trade marketing</div>
+          <div>Gestión comercial</div>
+        </div>
+      </div>
+      <form data-reveal="" onSubmit="{{ onSubmit }}" style="display:grid; gap:14px; padding:clamp(22px,3vw,34px); background:rgba(255,255,255,.96); backdrop-filter:blur(8px); border:1px solid #E7EEF8; border-radius:22px; box-shadow:0 28px 60px rgba(13,26,48,.1);">
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px;">
+          <label style="display:grid; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#8FA2BC;">Nombre
+            <input name="nombre" required="" placeholder="Nombre y apellido" style="padding:14px 15px; background:#F6F9FD; border:1px solid #E4EBF5; border-radius:11px; color:#0D1420; font-size:15px; letter-spacing:0;" style-focus="border-color:#0B5FE0; outline:none; background:#FFFFFF" />
+          </label>
+          <label style="display:grid; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#8FA2BC;">Empresa
+            <input name="empresa" placeholder="Marca o compañía" style="padding:14px 15px; background:#F6F9FD; border:1px solid #E4EBF5; border-radius:11px; color:#0D1420; font-size:15px; letter-spacing:0;" style-focus="border-color:#0B5FE0; outline:none; background:#FFFFFF" />
+          </label>
+        </div>
+        <div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px;">
+          <label style="display:grid; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#8FA2BC;">Correo
+            <input name="correo" type="email" required="" placeholder="nombre@empresa.com" style="padding:14px 15px; background:#F6F9FD; border:1px solid #E4EBF5; border-radius:11px; color:#0D1420; font-size:15px; letter-spacing:0;" style-focus="border-color:#0B5FE0; outline:none; background:#FFFFFF" />
+          </label>
+          <label style="display:grid; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#8FA2BC;">Celular
+            <input name="celular" placeholder="+593 000 000 000" style="padding:14px 15px; background:#F6F9FD; border:1px solid #E4EBF5; border-radius:11px; color:#0D1420; font-size:15px; letter-spacing:0;" style-focus="border-color:#0B5FE0; outline:none; background:#FFFFFF" />
+          </label>
+        </div>
+        <label style="display:grid; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#8FA2BC;">Servicio de interés
+          <select name="servicio" style="padding:14px 15px; background:#F6F9FD; border:1px solid #E4EBF5; border-radius:11px; color:#0D1420; font-size:15px; letter-spacing:0;" style-focus="border-color:#0B5FE0; outline:none; background:#FFFFFF">
+            <option>DOOH</option>
+            <option>Espacios y vía pública</option>
+            <option>Trade marketing</option>
+            <option>Alianzas comerciales</option>
+            <option>Soluciones a la medida</option>
+            <option>Aún no lo sé</option>
+          </select>
+        </label>
+        <label style="display:grid; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:10.5px; letter-spacing:.14em; text-transform:uppercase; color:#8FA2BC;">Tu necesidad
+          <textarea name="necesidad" rows="4" placeholder="Qué quieres lograr, dónde y en qué plazo." style="padding:14px 15px; background:#F6F9FD; border:1px solid #E4EBF5; border-radius:11px; color:#0D1420; font-size:15px; letter-spacing:0; resize:vertical;" style-focus="border-color:#0B5FE0; outline:none; background:#FFFFFF"></textarea>
+        </label>
+        <button type="submit" style="margin-top:6px; padding:17px; border:0; border-radius:999px; background:#0D1420; color:#FFFFFF; font-size:16px; font-weight:600; cursor:pointer; transition:transform .3s cubic-bezier(.2,.7,.2,1), box-shadow .3s ease;" style-hover="transform:translateY(-3px); box-shadow:0 16px 32px rgba(13,20,32,.25)">{{ submitLabel }}</button>
+        <p style="margin:0; font-size:13px; line-height:1.5; color:#62718A;">Respondemos por WhatsApp o correo en horario laboral.</p>
+      </form>
+    </div>
+  </section>
+
+  <footer style="background:#FFFFFF; border-top:1px solid #EAF0F8;">
+    <div style="max-width:1280px; margin:0 auto; padding:clamp(32px,5vh,52px) clamp(16px,4vw,40px); padding-bottom:{{ footerPad }}; display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:24px;">
+      <div>
+        <img src="assets-light-v2/Logo-TradeUp_B1.png" alt="TradeUp" style="height:58px; width:auto; display:block; margin:-8px 0 12px -6px;" />
+        <div style="font-size:14px; color:#62718A; max-width:38ch; line-height:1.6;">Desarrollo, operación y comercialización de soluciones integrales de visibilidad de marca, trade marketing y gestión comercial.</div>
+      </div>
+      <div style="display:flex; flex-direction:column; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:#8FA2BC;">
+        <a href="{{ waLink }}" target="_blank" rel="noopener" style-hover="color:#0D1420">WhatsApp</a>
+        <a href="#contacto" style-hover="color:#0D1420">Contacto</a>
+        <span>© 2026 TradeUp</span>
+      </div>
+    </div>
+  </footer>
+
+  <sc-if value="{{ isMobile }}" hint-placeholder-val="{{ false }}">
+    <a href="{{ waLink }}" target="_blank" rel="noopener" style="position:fixed; left:16px; right:16px; bottom:16px; z-index:60; display:flex; align-items:center; justify-content:center; gap:10px; padding:16px; border-radius:999px; background:#0B5FE0; color:#FFFFFF; font-size:16px; font-weight:600; box-shadow:0 14px 32px rgba(11,95,224,.35);"><span style="width:18px; height:18px; flex:none; background:#FFFFFF; mask:url(assets-light-v2/icon-whatsapp.svg) center/contain no-repeat; -webkit-mask:url(assets-light-v2/icon-whatsapp.svg) center/contain no-repeat;"></span>Hablemos por WhatsApp</a>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;whatsapp&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;+593 99 117 9175&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contacto&quot;},&quot;autoplay&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Servicios&quot;}}">
+class Component extends DCLogic {
+  state = { faq: 0, hov: -1, sHov: -1, slide: 0, pct: 0, w: typeof window !== 'undefined' ? window.innerWidth : 1280, menuOpen: false, sent: false };
+
+  componentDidMount() {
+    this._r = () => this.setState({ w: window.innerWidth });
+    window.addEventListener('resize', this._r);
+    this._r();
+    requestAnimationFrame(this._r);
+    [0, 150, 600].forEach(t => setTimeout(this._r, t));
+    this._mq = window.matchMedia('(min-width: 900px)');
+    if (this._mq.addEventListener) this._mq.addEventListener('change', this._r);
+    if (window.ResizeObserver) { this._ro = new ResizeObserver(this._r); this._ro.observe(document.documentElement); }
+    this._io = new IntersectionObserver((entries) => {
+      entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('tuc-in'); this._io.unobserve(en.target); } });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    this._scan();
+    this._fallback = setTimeout(() => document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('tuc-in')), 2500);
+    this._onScroll = () => {
+      const d = document.documentElement;
+      const max = (d.scrollHeight - d.clientHeight) || 1;
+      const pct = Math.min(100, Math.max(0, Math.round((d.scrollTop || document.body.scrollTop) / max * 100)));
+      if (pct !== this.state.pct) this.setState({ pct });
+    };
+    window.addEventListener('scroll', this._onScroll, { passive: true });
+    this._onScroll();
+    this._auto = setInterval(() => {
+      if (this.props.autoplay === false) return;
+      if (this.state.sHov !== -1) return;
+      this.setState(s => ({ slide: s.slide >= this._maxIdx ? 0 : s.slide + 1 }));
+    }, 6500);
+  }
+  componentDidUpdate() { this._scan(); }
+  _scan() { if (this._io) document.querySelectorAll('[data-reveal]:not(.tuc-in)').forEach(el => this._io.observe(el)); }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this._r);
+    if (this._mq && this._mq.removeEventListener) this._mq.removeEventListener('change', this._r);
+    if (this._ro) this._ro.disconnect();
+    if (this._io) this._io.disconnect();
+    window.removeEventListener('scroll', this._onScroll);
+    clearInterval(this._auto);
+    clearTimeout(this._fallback);
+  }
+
+  _mask(name) { return 'url(assets-light-v2/' + name + '.svg) center/contain no-repeat'; }
+
+  renderVals() {
+    const phone = this.props.whatsapp ?? '+593 99 117 9175';
+    const svcDefs = [
+      { num: '01', title: 'DOOH', body: 'Circuitos de pantallas digitales en espacios de alto tráfico: diseño, instalación, operación e inventario al servicio de tu estrategia.', items: ['Diseño e instalación', 'Operación y mantenimiento', 'Inventario para estrategia', 'Programación de contenido'], img: 'assets-light-v2/tu-light-02-dooh.webp', imgAlt: 'Circuito de pantallas digitales en el Aeropuerto Internacional Mariscal Sucre, Quito.' },
+      { num: '02', title: 'Espacios y vía pública', body: 'Intervenciones de mobiliario urbano y espacios no convencionales que llevan la marca a la calle con presencia real.', items: ['Mobiliario urbano', 'Espacios no convencionales', 'Intervenciones a escala', 'Permisos y logística'], img: 'assets-light-v2/tu-light-03-via-publica.webp', imgAlt: 'Intervención digital en mobiliario urbano del Malecón 2000, Guayaquil.' },
+      { num: '03', title: 'Trade Marketing', body: 'Entramos al punto de venta: negociamos el espacio, ejecutamos, colocamos, reponemos y verificamos el cumplimiento.', items: ['Negociación de espacios', 'Ejecución y colocación', 'Reposición y gestión', 'Cumplimiento y reporte'], img: 'assets-light-v2/tu-light-04-trade-marketing.webp', imgAlt: 'Exhibición de marca montada en el punto de venta de Supermaxi, Quito.' },
+      { num: '04', title: 'Alianzas comerciales', body: 'Conectamos marcas y retailers para encontrar oportunidades comerciales que beneficien a ambas partes.', items: ['Identificación de oportunidades', 'Negociación entre partes', 'Modelos de beneficio mutuo', 'Activación conjunta'], img: 'assets-light-v2/tu-light-05-alianzas.webp', imgAlt: 'Espacio de marca integrado en el C.C. Scala Shopping, Quito.' },
+      { num: '05', title: 'Soluciones a la medida', body: 'No tenemos que encajarte en un producto prefabricado: construimos la solución alrededor de tu necesidad.', items: ['Diagnóstico de la necesidad', 'Combinación de servicios', 'Diseño de la solución', 'Operación integral'], img: 'assets-light-v2/tu-light-06-soluciones-medida.webp', imgAlt: 'Montaje especial de marca para una activación en el Parque La Carolina, Quito.' }
+    ];
+    const audDefs = [
+      { t: 'Marcas', d: 'Presencia física donde ocurre la decisión de compra.', k: 'Visibilidad', img: 'assets-light-v2/tu-light-08-personas-marca.webp' },
+      { t: 'Marketing', d: 'Campañas que aterrizan en calle, pantalla y canal.', k: 'Campañas', img: 'assets-light-v2/tu-light-03-via-publica.webp' },
+      { t: 'Equipos comerciales', d: 'Volumen y rotación apoyados en el punto de venta.', k: 'Resultados', img: 'assets-light-v2/tu-light-04-trade-marketing.webp' },
+      { t: 'Trade marketing', d: 'Negociación, ejecución y cumplimiento en tienda.', k: 'Ejecución', img: 'assets-light-v2/tu-light-02-dooh.webp' },
+      { t: 'Agencias', d: 'Un operador que ejecuta lo que la idea promete.', k: 'Implementación', img: 'assets-light-v2/tu-light-06-soluciones-medida.webp' },
+      { t: 'Retailers', d: 'Monetización de espacios y alianzas con marcas.', k: 'Alianzas', img: 'assets-light-v2/tu-light-05-alianzas.webp' }
+    ];
+    const faqDefs = [
+      { q: '¿TradeUp es una agencia de publicidad?', a: 'No. Somos una empresa de soluciones de visibilidad de marca, trade marketing y gestión comercial. Diseñamos la solución y también la ejecutamos: instalación, negociación de espacios, colocación, reposición y cumplimiento.' },
+      { q: '¿Puedo contratar un solo servicio?', a: 'Sí. Puedes tomar únicamente DOOH, una intervención en vía pública o una ejecución de trade marketing. También podemos combinarlos en un proyecto integral si la necesidad lo requiere.' },
+      { q: '¿Qué incluye el servicio de DOOH?', a: 'Diseño e instalación de los circuitos, operación y mantenimiento de las pantallas, disponibilidad de inventario para tu estrategia y programación del contenido.' },
+      { q: '¿Se encargan de la ejecución en tienda?', a: 'Sí. Negociamos el espacio con el retailer, ejecutamos la colocación, gestionamos la reposición y verificamos el cumplimiento con reporte.' },
+      { q: '¿Qué pasa si mi necesidad no encaja en ningún servicio?', a: 'Entra en soluciones a la medida. Partimos del objetivo comercial y construimos la solución alrededor de tu necesidad, combinando varios servicios en un solo proyecto.' },
+      { q: '¿Cómo empieza un proyecto?', a: 'Cuéntanos qué necesitas por WhatsApp o en el formulario. Revisamos el objetivo, los espacios disponibles y los plazos, y te proponemos la ruta de ejecución.' }
+    ];
+    const wa = String(phone).indexOf('http') === 0 ? phone : 'https://wa.me/' + String(phone).replace(/[^0-9]/g, '');
+    const desktop = (typeof window !== 'undefined' && window.matchMedia)
+      ? window.matchMedia('(min-width: 900px)').matches
+      : this.state.w >= 900;
+    const wide = (typeof window !== 'undefined' && window.matchMedia)
+      ? window.matchMedia('(min-width: 1180px)').matches
+      : this.state.w >= 1180;
+    const per = wide ? 3 : (desktop ? 2 : 1);
+    const gap = 20;
+    const maxIdx = Math.max(0, svcDefs.length - per);
+    this._maxIdx = maxIdx;
+    const idx = Math.min(this.state.slide, maxIdx);
+    return {
+      waLink: wa,
+      isDesktop: desktop,
+      isMobile: !desktop,
+      menuOpen: !desktop && this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      footerPad: !desktop ? 'calc(104px + env(safe-area-inset-bottom))' : 'clamp(32px,5vh,52px)',
+      scrollPct: this.state.pct + '%',
+      pillars: [
+        { k: 'Estrategia', t: 'Partimos del objetivo', d: 'Entendemos el problema comercial antes de hablar de formatos.', icon: this._mask('icon-objetivo') },
+        { k: 'Espacios', t: 'Ciudad y canal', d: 'Pantallas, mobiliario urbano, retail y punto de venta.', icon: this._mask('icon-ubicacion') },
+        { k: 'Ejecución', t: 'Operamos en campo', d: 'Instalación, negociación, colocación y reposición.', icon: this._mask('icon-operacion') },
+        { k: 'Resultados', t: 'Cumplimiento verificado', d: 'Reporte de lo ejecutado y aprendizajes del ciclo.', icon: this._mask('icon-reportes') }
+      ].map((p, i) => Object.assign({}, p, { delay: (i * 70) + 'ms' })),
+      chain: ['La calle', 'El espacio público', 'Una pantalla', 'Un retailer', 'El punto de venta', 'Una alianza comercial'],
+      steps: [
+        { n: '01', t: 'Entendemos la necesidad', d: 'Partimos del objetivo comercial, no del formato disponible.', icon: this._mask('icon-objetivo') },
+        { n: '02', t: 'Diseñamos la solución', d: 'Combinamos espacios, tecnología y ejecución según el caso.', icon: this._mask('icon-soluciones') },
+        { n: '03', t: 'Operamos en campo', d: 'Instalación, negociación, colocación, reposición y gestión.', icon: this._mask('icon-operacion') },
+        { n: '04', t: 'Reportamos resultados', d: 'Cumplimiento verificado y aprendizajes para el siguiente ciclo.', icon: this._mask('icon-reportes') }
+      ],
+      cardBasis: '0 0 calc((100% - ' + (gap * (per - 1)) + 'px) / ' + per + ')',
+      trackShift: 'translateX(calc(-1 * ' + idx + ' * ((100% - ' + (gap * (per - 1)) + 'px) / ' + per + ' + ' + gap + 'px)))',
+      prev: () => this.setState({ slide: Math.max(0, idx - 1) }),
+      next: () => this.setState({ slide: Math.min(maxIdx, idx + 1) }),
+      prevColor: idx === 0 ? '#C2CCDA' : '#0D1420',
+      nextColor: idx >= maxIdx ? '#C2CCDA' : '#0D1420',
+      dots: Array.from({ length: maxIdx + 1 }, (_, i) => ({
+        label: String(i + 1),
+        w: i === idx ? '26px' : '7px',
+        bg: i === idx ? '#0B5FE0' : '#D3DDEA',
+        go: () => this.setState({ slide: i })
+      })),
+      services: svcDefs.map((s, i) => {
+        const hov = this.state.sHov === i;
+        return Object.assign({}, s, {
+          lift: hov ? 'translateY(-10px)' : 'translateY(0px)',
+          shadow: hov ? '0 34px 60px rgba(13,26,48,.16)' : '0 12px 28px rgba(13,26,48,.06)',
+          iconMask: this._mask(['icon-soluciones', 'icon-ubicacion', 'icon-equipos', 'icon-ciudad', 'icon-objetivo'][i]),
+          zoom: hov ? 'scale(1.07)' : 'scale(1.01)',
+          onEnter: () => this.setState({ sHov: i }),
+          onLeave: () => this.setState(st => (st.sHov === i ? { sHov: -1 } : null))
+        });
+      }),
+      audiences: audDefs.map((a, i) => {
+        const hov = this.state.hov === i;
+        return Object.assign({}, a, {
+          n: String(i + 1).padStart(2, '0'),
+          shadow: hov ? '0 24px 44px rgba(13,26,48,.14)' : '0 10px 24px rgba(13,26,48,.06)',
+          flip: hov ? 'rotateY(180deg)' : 'rotateY(0deg)',
+          onEnter: () => this.setState({ hov: i }),
+          onLeave: () => this.setState(st => (st.hov === i ? { hov: -1 } : null))
+        });
+      }),
+      faqs: faqDefs.map((f, i) => {
+        const open = this.state.faq === i;
+        return Object.assign({}, f, {
+          open,
+          qColor: open ? '#0D1420' : '#33415A',
+          iconColor: open ? '#0B5FE0' : '#9AA8BC',
+          iconRotate: open ? 'rotate(45deg)' : 'rotate(0deg)',
+          onToggle: () => this.setState({ faq: open ? -1 : i })
+        });
+      }),
+      submitLabel: this.state.sent ? 'Enviado ✓' : 'Enviar necesidad',
+      onSubmit: (e) => { e.preventDefault(); this.setState({ sent: true }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
