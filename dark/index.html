@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<script src="./support.js"></script>
+<script src="dark/support.js"></script>
 </head>
 <body>
 <x-dc>
@@ -34,7 +34,7 @@
   <header style="position:sticky; top:0; z-index:50; backdrop-filter:blur(14px); background:rgba(7,12,20,.82); borderBottom:1px solid rgba(255,255,255,.08);">
     <div style="max-width:1320px; margin:0 auto; padding:14px clamp(16px,4vw,40px); display:flex; align-items:center; justify-content:space-between; gap:24px;">
       <a href="#top" style="display:flex; align-items:center;">
-        <img src="assets/Logo-TradeUp_B1.png" alt="TradeUp" style="height:48px; width:auto; display:block;" />
+        <img src="dark/assets/Logo-TradeUp_B1.png" alt="TradeUp" style="height:48px; width:auto; display:block;" />
       </a>
       <sc-if value="{{ isDesktop }}" hint-placeholder-val="{{ true }}">
         <nav style="display:flex; align-items:center; gap:clamp(18px,2.2vw,34px); font-size:14px; font-weight:500; color:#A7B4C4;">
@@ -70,10 +70,10 @@
 
   <section id="top" style="position:relative; min-height:clamp(560px,92vh,900px); display:flex; align-items:flex-end; overflow:hidden; borderBottom:1px solid rgba(255,255,255,.08);">
     <picture style="position:absolute; inset:0; display:block;">
-      <source media="(max-width: 899px)" srcSet="assets/tu-01-header-mobile.webp" type="image/webp" />
-      <source media="(max-width: 899px)" srcSet="assets/tu-01-header-mobile.jpg" type="image/jpeg" />
-      <source srcSet="assets/tu-01-header-desktop.webp" type="image/webp" />
-      <img src="assets/tu-01-header-desktop.jpg" alt="Pantalla digital de gran formato encendida en una avenida de alto tráfico de noche." style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 42%;" />
+      <source media="(max-width: 899px)" srcSet="dark/assets/tu-01-header-mobile.webp" type="image/webp" />
+      <source media="(max-width: 899px)" srcSet="dark/assets/tu-01-header-mobile.jpg" type="image/jpeg" />
+      <source srcSet="dark/assets/tu-01-header-desktop.webp" type="image/webp" />
+      <img src="dark/assets/tu-01-header-desktop.jpg" alt="Pantalla digital de gran formato encendida en una avenida de alto tráfico de noche." style="position:absolute; inset:0; width:100%; height:100%; object-fit:cover; object-position:center 42%;" />
     </picture>
     <div style="position:absolute; inset:0; background:linear-gradient(180deg,rgba(4,8,14,.18) 0%,rgba(4,8,14,.42) 38%,rgba(5,9,16,.82) 78%,#070C14 100%);"></div>
     <div style="position:absolute; inset:0; background:linear-gradient(90deg,rgba(4,8,14,.82) 0%,rgba(4,8,14,.45) 42%,rgba(4,8,14,0) 72%);"></div>
@@ -287,7 +287,7 @@
   <footer style="borderTop:1px solid rgba(255,255,255,.08); background:#0A121D;">
     <div style="max-width:1320px; margin:0 auto; padding:clamp(36px,6vh,58px) clamp(16px,4vw,40px); padding-bottom:{{ footerPad }}; display:flex; flex-wrap:wrap; align-items:flex-end; justify-content:space-between; gap:24px;">
       <div>
-        <img src="assets/Logo-TradeUp_B1.png" alt="TradeUp" style="height:66px; width:auto; display:block; margin:-8px 0 10px -6px;" />
+        <img src="dark/assets/Logo-TradeUp_B1.png" alt="TradeUp" style="height:66px; width:auto; display:block; margin:-8px 0 10px -6px;" />
         <div style="font-size:14px; color:#8595A8; max-width:38ch; line-height:1.6;">Desarrollo, operación y comercialización de soluciones integrales de visibilidad de marca, trade marketing y gestión comercial.</div>
       </div>
       <div style="display:flex; flex-direction:column; gap:8px; font-family:'IBM Plex Mono',monospace; font-size:11.5px; letter-spacing:.12em; text-transform:uppercase; color:#8595A8;">
@@ -342,11 +342,11 @@ class Component extends DCLogic {
     const accent = this.props.accent ?? '#3E8BFF';
     const phone = (this.props.whatsapp ?? '+00 000 000 0000');
     const defs = [
-      { num: '01', title: 'DOOH', body: 'Circuitos de pantallas digitales en espacios de alto tráfico. Diseñamos, instalamos, operamos y ponemos el inventario a disposición de tu estrategia.', items: ['Diseño e instalación', 'Operación y mantenimiento', 'Inventario para estrategia', 'Programación de contenido'], img: 'assets/tu-02-dooh.webp', imgAlt: 'Circuito de pantallas digitales en un corredor de alto tráfico.' },
-      { num: '02', title: 'Espacios y vía pública', body: 'Intervenciones de mobiliario urbano y espacios no convencionales que llevan la marca a la calle con presencia e impacto real.', items: ['Mobiliario urbano', 'Espacios no convencionales', 'Intervenciones a escala', 'Permisos y logística'], img: 'assets/tu-03-via-publica.webp', imgAlt: 'Intervención de marca en mobiliario urbano de una calle concurrida.' },
-      { num: '03', title: 'Trade Marketing', body: 'Entramos directamente al punto de venta: negociamos el espacio, ejecutamos, colocamos, reponemos y garantizamos el cumplimiento.', items: ['Negociación de espacios', 'Ejecución y colocación', 'Reposición y gestión', 'Cumplimiento y reporte'], img: 'assets/tu-04-trade-marketing.webp', imgAlt: 'Exhibición de marca montada en el punto de venta de una tienda.' },
-      { num: '04', title: 'Alianzas comerciales', body: 'Conectamos marcas y retailers para encontrar oportunidades comerciales que beneficien a ambas partes.', items: ['Identificación de oportunidades', 'Negociación entre partes', 'Modelos de beneficio mutuo', 'Activación conjunta'], img: 'assets/tu-05-alianzas.webp', imgAlt: 'Espacio de marca integrado en el área principal de un retailer.' },
-      { num: '05', title: 'Soluciones a la medida', body: 'No tenemos que encajarte en un producto prefabricado. Construimos la solución alrededor de tu necesidad, combinando varios servicios en un solo proyecto.', items: ['Diagnóstico de la necesidad', 'Combinación de servicios', 'Diseño de la solución', 'Operación integral'], img: 'assets/tu-06-soluciones-medida.webp', imgAlt: 'Montaje especial de marca combinando pantalla, estructura y producto.' }
+      { num: '01', title: 'DOOH', body: 'Circuitos de pantallas digitales en espacios de alto tráfico. Diseñamos, instalamos, operamos y ponemos el inventario a disposición de tu estrategia.', items: ['Diseño e instalación', 'Operación y mantenimiento', 'Inventario para estrategia', 'Programación de contenido'], img: 'dark/assets/tu-02-dooh.webp', imgAlt: 'Circuito de pantallas digitales en un corredor de alto tráfico.' },
+      { num: '02', title: 'Espacios y vía pública', body: 'Intervenciones de mobiliario urbano y espacios no convencionales que llevan la marca a la calle con presencia e impacto real.', items: ['Mobiliario urbano', 'Espacios no convencionales', 'Intervenciones a escala', 'Permisos y logística'], img: 'dark/assets/tu-03-via-publica.webp', imgAlt: 'Intervención de marca en mobiliario urbano de una calle concurrida.' },
+      { num: '03', title: 'Trade Marketing', body: 'Entramos directamente al punto de venta: negociamos el espacio, ejecutamos, colocamos, reponemos y garantizamos el cumplimiento.', items: ['Negociación de espacios', 'Ejecución y colocación', 'Reposición y gestión', 'Cumplimiento y reporte'], img: 'dark/assets/tu-04-trade-marketing.webp', imgAlt: 'Exhibición de marca montada en el punto de venta de una tienda.' },
+      { num: '04', title: 'Alianzas comerciales', body: 'Conectamos marcas y retailers para encontrar oportunidades comerciales que beneficien a ambas partes.', items: ['Identificación de oportunidades', 'Negociación entre partes', 'Modelos de beneficio mutuo', 'Activación conjunta'], img: 'dark/assets/tu-05-alianzas.webp', imgAlt: 'Espacio de marca integrado en el área principal de un retailer.' },
+      { num: '05', title: 'Soluciones a la medida', body: 'No tenemos que encajarte en un producto prefabricado. Construimos la solución alrededor de tu necesidad, combinando varios servicios en un solo proyecto.', items: ['Diagnóstico de la necesidad', 'Combinación de servicios', 'Diseño de la solución', 'Operación integral'], img: 'dark/assets/tu-06-soluciones-medida.webp', imgAlt: 'Montaje especial de marca combinando pantalla, estructura y producto.' }
     ];
     const audDefs = [
       { t: 'Marcas', d: 'Presencia física donde ocurre la decisión de compra.', k: 'Visibilidad' },
@@ -396,7 +396,7 @@ class Component extends DCLogic {
         const hov = this.state.hov === i;
         return Object.assign({}, a, {
           n: String(i + 1).padStart(2, '0'),
-          tex: ['assets/tu-07-textura-metal.webp', 'assets/tu-08-textura-led.webp', 'assets/tu-09-textura-fachada.webp'][i % 3],
+          tex: ['dark/assets/tu-07-textura-metal.webp', 'dark/assets/tu-08-textura-led.webp', 'dark/assets/tu-09-textura-fachada.webp'][i % 3],
           flip: hov ? 'rotateY(180deg)' : 'rotateY(0deg)',
           glow: hov ? 0.55 : 0.28,
           onEnter: () => this.setState({ hov: i }),
