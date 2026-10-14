@@ -30,8 +30,8 @@
   --font-script: "Caveat", cursive;
 
   /* Layout */
-  --container: 1240px;
-  --gutter: clamp(16px, 4vw, 40px);
+  --container: 1440px;
+  --gutter: clamp(16px, 3.5vw, 56px);
   --radius-sm: 12px;
   --radius: 20px;
   --radius-lg: 28px;
